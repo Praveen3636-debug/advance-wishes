@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Countdown to Saranya Akka's Birthday 🎉</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            /* Background image */
+            background-image: url('background.jpg'); /* <- Replace with your file name */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        h1 {
+            font-size: 3em;
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow {
+            from {text-shadow: 0 0 10px #fff;}
+            to {text-shadow: 0 0 25px #ffdde1;}
+        }
+
+        #countdown, .images, .quotes, .birthday-msg {
+            display: none;
+        }
+
+        #countdown {
+            font-size: 2em;
+            margin: 20px 0;
+            background: rgba(0,0,0,0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .btn {
+            margin-top: 30px;
+            padding: 12px 25px;
+            font-size: 1em;
+            background: white;
+            color: #ff4f81;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #ff4f81;
+            color: white;
+        }
+
+        .images img {
+            width: 250px;
+            border-radius: 15px;
+            margin: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        .quotes {
+            margin-top: 30px;
+            font-size: 1.5em;
+            line-height: 1.6;
+            min-height: 120px;
+            background: rgba(0,0,0,0.3);
+            display: inline-block;
+            padding: 15px 20px;
+            border-radius: 15px;
+        }
+
+        .birthday-msg {
+            font-size: 2em;
+            margin-top: 30px;
+            color: #fff700;
+            animation: fadeIn 2s;
+            background: rgba(0,0,0,0.4);
+            padding: 15px 20px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        @keyframes fadeIn {
+            from {opacity:0;}
+            to {opacity:1;}
+        }
+    </style>
+</head>
+<body>
+
+<h1>🎂 Countdown to Saranya Akka's Birthday 🎂</h1>
+
+<!-- Start button -->
+<button id="startBtn" class="btn">🎉 Start Countdown 🎉</button>
+
+<!-- Countdown -->
+<div id="countdown"></div>
+
+<!-- Images -->
+<div class="images">
+    <img src="akka.jpg" alt="Akka">
+    <img src="thambi.jpg" alt="Thambi">
+</div>
+
+<!-- Quotes -->
+<div class="quotes" id="quotes"></div>
+
+<!-- Birthday message -->
+<div class="birthday-msg" id="birthdayMessage"></div>
+
+<script>
+const startBtn = document.getElementById("startBtn");
+const countdownEl = document.getElementById("countdown");
+const imagesDiv = document.querySelector(".images");
+const quotesEl = document.getElementById("quotes");
+const birthdayMsgEl = document.getElementById("birthdayMessage");
+
+const quotesArr = [
+    "You may not be my sister by blood, but you are my sister by heart. ❤️",
+    "அக்கா, உன் அன்பு என் இதயத்தில் ஊற்றமாய் நிரம்புகிறது, உன்னோடு நான் பகிர்ந்த ஒவ்வொரு நிமிடமும் நினைவாகும்.",
+    "A sister like you is a gift I never expected but will always treasure. 💕",
+    "நாம் ரத்தத்தில் இணைக்கப்படவில்லை என்றாலும், உன் அன்பும் உறவும் என் வாழ்வின் உயர்ந்த ரத்தமாக உள்ளது.",
+    "Thank you for being my guiding star and my Akka in every way. 🌟",
+    "நான் எப்போதும் உன் அக்காவாக இருக்கும், உன்னோடு கொண்டிருக்கும் உறவு வாழ்நாளும் உறுதி."
+];
+
+let countdownInterval;
+let quotesInterval;
+
+startBtn.addEventListener("click", () => {
+    startBtn.style.display = "none";
+
+    // 1️⃣ Show countdown
+    countdownEl.style.display = "block";
+
+    const targetDate = new Date(new Date().getTime() + 9*24*60*60*1000); // 9 days
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance <= 0) {
+            clearInterval(countdownInterval);
+            clearInterval(quotesInterval);
+            countdownEl.style.display = "none";
+            quotesEl.style.display = "none";
+            imagesDiv.style.display = "none";
+            birthdayMsgEl.style.display = "block";
+            birthdayMsgEl.innerText = "💖 You were born! Happy Birthday Saranya Akka! 🎉✨";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000*60*60*24));
+        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+        const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+        countdownEl.innerText = `⏳ ${days}d ${hours}h ${minutes}m ${seconds}s remaining`;
+    }
+
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+
+    // 2️⃣ Show images after 2 seconds
+    setTimeout(() => { imagesDiv.style.display = "block"; }, 2000);
+
+    // 3️⃣ Show quotes after 4 seconds
+    setTimeout(() => {
+        quotesEl.style.display = "block";
+        let i = 0;
+        function rotateQuotes() {
+            quotesEl.innerText = quotesArr[i];
+            i = (i + 1) % quotesArr.length;
+        }
+        rotateQuotes();
+        quotesInterval = setInterval(rotateQuotes, 7000);
+    }, 4000);
+});
+</script>
+
+</body>
+</html>
